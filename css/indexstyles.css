@@ -1,0 +1,119 @@
+/* VARIABLES CSS - PALETA DE COLORES */
+/* SELECTOR PADRE */
+:root{
+    --colorPrimario: #1B4F72;
+    --colorSecundario: #D68910;
+    --colorTerciario: #ffffff;
+    --colorSombras: #282d31;
+    --colorTitulos: #282d31;
+    --colorParrafos: #53575a;
+    --colorFondo:   #fcfcfc;
+    --colorBordes: #dfe0e0;
+    --zIndexNomal: 1;
+    --zIndexToolTip: 10;
+    --zIndexFixed: 100;
+    --zIndexModal: 1000;
+    --zIndexPopUp: 10000;
+}
+/* SELECTOR UNIVERSAL */
+*{
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+}
+body {
+    margin: 0;
+    padding: 0;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #f0f2f5;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+}
+
+/* Contenedor principal */
+.container {
+    background: #ffffff;
+    padding: 2rem;
+    border-radius: 12px;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    max-width: 400px;
+    text-align: center;
+}
+
+/* Títulos */
+h2 {
+    color: var(--colorPrimario);
+    margin-bottom: 1.5rem;
+    font-weight: 600;
+}
+
+/* Estilo de los formularios */
+.formulario {
+    display: flex;
+    flex-direction: column;
+    gap: 12px; /* Espacio entre inputs */
+}
+
+/* Inputs y campos de texto */
+input {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    font-size: 14px;
+    box-sizing: border-box; /* Asegura que el padding no afecte el ancho */
+}
+
+input:focus {
+    outline: none;
+    border-color: var(--colorSecundario);
+    box-shadow: 0 0 0 2px rgba(0, 123, 255, 0.1);
+}
+
+/* Botón principal de envío */
+.submit {
+    background-color: var(--colorSecundario);
+    color: white;
+    border: none;
+    padding: 12px;
+    border-radius: 6px;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    margin-top: 10px;
+}
+
+.submit:hover {
+    background-color: var(--colorPrimario);
+}
+
+/* Botón para alternar vistas (el de abajo) */
+.submit2 {
+    background: none;
+    border: none;
+    color: var(--colorSecundario);
+    text-decoration: underline;
+    margin-top: 20px;
+    cursor: pointer;
+    font-size: 14px;
+}
+
+.submit2:hover {
+    color: var(--colorPrimario);
+}
+
+/* Mensajes de error/éxito */
+.mensaje {
+    font-size: 14px;
+    margin-top: 10px;
+    min-height: 1em;
+}
+
+/* Ajuste específico para el input de fecha */
+.fecha {
+    color: #666;
+}
