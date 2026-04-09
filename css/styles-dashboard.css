@@ -1,0 +1,293 @@
+/* VARIABLES CSS - PALETA DE COLORES */
+/* SELECTOR PADRE */
+:root {
+    --sidebar-bg: #2C3E50; /* Azul grisáceo oscuro corporativo*/
+    --sidebar-text: #ECF0F1; /* Texto claro */
+    --sidebar-hover: #34495E;
+    --content-bg: #F4F7F6; /* Gris muy sutil para el fondo */
+    --accent-color: #3498DB; /* Azul corporativo interactivo */
+    --text-color: #333333;
+    --border-color: #E0E0E0;
+    --card-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+    --zIndexNomal: 1;
+    --zIndexToolTip: 10;
+    --zIndexFixed: 100;
+    --zIndexModal: 1000;
+    --zIndexPopUp: 10000;
+}
+/* SELECTOR UNIVERSAL */
+*{
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+}
+body {
+    background-color: var(--content-bg);
+    color: var(--text-color);
+}
+.containers {
+    display: flex;
+    min-height: 100vh; /* Ocupar toda la altura de la pantalla */
+}
+/* =========================================
+3. BARRA LATERAL (SIDEBAR)
+========================================= */
+.sidebar {
+    width: 260px;
+    background-color: var(--sidebar-bg);
+    color: var(--sidebar-text);
+    display: flex;
+    flex-direction: column;
+    position: fixed; /* Fija a la izquierda */
+    height: 100%;
+}
+.sidebar-header {
+    padding: 25px 20px;
+    display: flex;
+    align-items: center;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+.sidebar-header i {
+    font-size: 1.6rem;
+    margin-right: 12px;
+}
+.sidebar-header h2 {
+    font-size: 1.1rem;
+    font-weight: 600;
+}
+.sidebar-nav {
+    flex: 1;
+    padding: 20px 0;
+}
+.sidebar-nav ul {
+    list-style: none;
+}
+.sidebar-nav li a {
+    display: block;
+    padding: 14px 20px;
+    color: var(--sidebar-text);
+    text-decoration: none;
+    font-size: 0.95rem;
+    transition: background-color 0.3s ease;
+}
+.sidebar-nav li a:hover {
+    background-color: var(--sidebar-hover);
+}
+/* Estado Activo para guiar al usuario */
+.sidebar-nav li.active a {
+    background-color: var(--accent-color);
+    font-weight: 600;
+}
+.sidebar-nav li i {
+    margin-right: 10px;
+    width: 20px;
+    text-align: center;
+}
+.sidebar-footer {
+    padding: 20px;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+.user-profile {
+    display: flex;
+    align-items: center;
+}
+    .user-profile img {
+    border-radius: 50%;
+    margin-right: 12px;
+}
+.user-info h3 {
+    font-size: 0.95rem;
+}
+.user-info a {
+    color: rgba(255, 255, 255, 0.7);
+    font-size: 0.8rem;
+    text-decoration: none;
+}
+/* =========================================
+ 4. CONTENIDO PRINCIPAL Y CABECERA
+========================================= */
+.main-content {
+    flex: 1;
+    margin-left: 260px; /* Compensar la barra lateral fija */
+    display: flex;
+    flex-direction: column;
+}
+.top-header {
+    background-color: #FFFFFF;
+    padding: 15px 30px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid var(--border-color);
+    box-shadow: 0 2px 5px rgba(0,0,0,0.02);
+}
+.header-left h2 {
+    font-size: 1.4rem;
+    color: var(--sidebar-bg);
+}
+.header-right {
+    display: flex;
+    align-items: center;
+}
+    .header-right i {
+    font-size: 1.2rem;
+    margin-right: 20px;
+    cursor: pointer;
+}
+    .search-bar {
+    position: relative;
+    margin-right: 20px;
+}
+.search-bar input {
+    padding: 10px 35px 10px 15px;
+    border: 1px solid var(--border-color);
+    border-radius: 6px;
+    background-color: var(--content-bg);
+}
+.search-bar i {
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 1rem;
+    color: #888;
+    margin-right: 0;
+}
+.user-dropdown {
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+}
+.user-dropdown img {
+    border-radius: 50%;
+    margin-right: 10px;
+}
+.user-dropdown h3 {
+    font-size: 0.95rem;
+}
+/* =========================================
+5. CUERPO DE CONTENIDO Y TARJETAS
+========================================= */
+.content-body {
+    padding: 30px;
+    flex: 1;
+}
+.card {
+    background-color: #FFFFFF;
+    border-radius: 10px;
+    box-shadow: var(--card-shadow);
+    margin-bottom: 25px;
+}
+.card-header {
+    padding: 20px 25px;
+    border-bottom: 1px solid var(--border-color);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.card-header h2 {
+    font-size: 1.15rem;
+}
+    /* Botones Profesionales */
+.btn {
+    padding: 8px 15px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 0.9rem;
+    font-weight: 600;
+}
+.btn-primary {
+    background-color: var(--accent-color);
+    color: #FFFFFF;
+}
+.data-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+.data-table th, .data-table td {
+    padding: 15px 25px;
+    text-align: left;
+    border-bottom: 1px solid var(--border-color);
+}
+.data-table th {
+    font-weight: 600;
+    color: #666;
+}
+/* Badges de Estado */
+.status-badge {
+    padding: 4px 10px;
+    border-radius: 20px;
+    font-size: 0.8rem;
+    font-weight: 600;
+}
+.status-active {
+    background-color: #D4EDDA;
+    color: #155724;
+}
+.status-inactive {
+    background-color: #F8D7DA;
+    color: #721C24;
+}
+
+.status-process {
+    background-color: #FFF3CD;
+    color: #856404;
+}
+.action-icons i {
+    cursor: pointer;
+    margin-right: 12px;
+}
+.card-footer {
+    padding: 15px 25px;
+    font-size: 0.85rem;
+    color: #777;
+}
+/* =========================================
+ESTILOS DEL MODAL (VENTANA EMERGENTE)
+========================================= */
+.modal-overlay {
+    position: fixed;
+    top: 0; left: 0; width: 100%; height: 100%;
+    background: rgba(0, 0, 0, 0.6);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+.modal-content {
+    background: #fff;
+    padding: 30px;
+    border-radius: 12px;
+    width: 100%;
+    max-width: 700px; /* Ancho para acomodar dos columnas */
+    box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+}
+    .modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+    border-bottom: 1px solid var(--border-color);
+    padding-bottom: 10px;
+}
+.btn-cerrar-modal {
+    cursor: pointer;
+    font-size: 1.5rem;
+    color: #888;
+}
+.form-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr; /* Dos columnas */
+    gap: 15px;
+}
+.modal-footer {
+    margin-top: 25px;
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+}
+.btn-secondary {
+    background-color: #95a5a6;
+    color: white;
+}
