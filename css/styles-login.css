@@ -106,7 +106,7 @@ input::placeholder {
 
 /* Estilos para el botón de cerrar sesión en el dashboard */
 .logout {
-    position: absolute;
+    position: fixed;
     top: 20px;
     right: 20px;
     background-color: #e74c3c;
@@ -116,7 +116,8 @@ input::placeholder {
     border-radius: 8px;
     cursor: pointer;
     font-weight: 600;
-    text-decoration: none
+    text-decoration: none;
+    z-index: 1000;
 }
 
 .logout:hover {

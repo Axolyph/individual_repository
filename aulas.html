@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Aulas - Matrícula OnLine</title>
+    <!-- FRAMEWORK BOOTSTRAP -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <!-- LIBRERÍA DE ICONOS -->
+    <script src="https://kit.fontawesome.com/812c8ee19a.js" crossorigin="anonymous"></script>
+    <!-- FAVICON -->
+    <link rel="shortcut icon" href="img/favicon.ico" type="image/x-icon">
+    <!-- FUENTES DE GOOGLE FONTS -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
+    <!-- FONT AWESOME -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <!-- HOJA DE ESTILOS -->
+    <link rel="stylesheet" href="css/styles-dashboard.css">
+    <!-- LIBRERÍA JQUERY -->
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+</head>
+<body>
+
+    <div class="containers">
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <i class="fa-solid fa-graduation-cap"></i>
+                <h2>SISTEMA DE MATRÍCULA</h2>
+            </div>
+            <nav class="sidebar-nav">
+                <ul>
+                    <li><a href="dashboard2.html"><i class="fa-solid fa-house"></i>Dashboard</a></li>
+                    <li><a href="dashboard2.html"><i class="fa-solid fa-user-graduate"></i>Estudiantes</a></li>
+                    <li><a href="cursos.html"><i class="fa-solid fa-book"></i>Cursos/Grados</a></li>
+                    <li class="active"><a href="aulas.html"><i class="fa-solid fa-chalkboard"></i>Aulas</a></li>
+                    <li><a href="#"><i class="fa-solid fa-file-contract"></i>Matrículas</a></li>
+                    <li><a href="#"><i class="fa-solid fa-money-bill-wave"></i>Pagos</a></li>
+                    <li><a href="#"><i class="fa-solid fa-gear"></i>Configuración</a></li>
+                </ul>
+            </nav>
+            <div class="sidebar-footer">
+                <div class="user-profile">
+                    <img src="" alt="Avatar">
+                    <div class="user-info">
+                        <h3>Administrador</h3>
+                        <a href="#">Ver perfil</a>
+                    </div>
+                </div>
+            </div>
+        </aside>
+
+        <main class="main-content">
+            <header class="top-header">
+                <div class="header-left">
+                    <h2>Panel de Aula</h2>
+                </div>
+                <div class="header-right">
+                    <i class="fa-solid fa-bell"></i>
+                    <div class="search-bar">
+                        <input type="text" placeholder="Buscar...">
+                        <i class="fa-solid fa-magnifying-glass"></i>
+                    </div>
+                    <div class="user-dropdown">
+                        <img src="" alt="Giancarlos">
+                        <h3>Giancarlos <i class="fa-solid fa-chevron-down"></i></h3>
+                    </div>
+                </div>
+            </header>
+
+            <div class="content-body">
+                <div class="card table-card">
+                    <div class="card-header">
+                        <h2>Gestión de Aulas</h2>
+                        <button class="btn btn-primary btn-nueva-aula"><i class="fa-solid fa-plus"></i> Registrar Nueva Aula</button>
+                    </div>
+
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Nivel</th>
+                                <th>Grado</th>
+                                <th>Sección</th>
+                                <th>Vacantes Totales</th>
+                                <th>Vacantes Disponibles</th>
+                                <th>Acciones</th>
+                            </tr>
+                        </thead>
+                        <tbody id="tablaAulas">
+                        </tbody>
+                    </table>
+
+                    <div class="card-footer">
+                        <p>Mostrando <span id="totalRegistros">0</span> aulas</p>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- MODAL PARA CREAR / EDITAR AULA -->
+    <div id="modalAula" class="modal-overlay" style="display: none;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 id="modalTitulo">Registrar Nueva Aula</h2>
+                <i class="fa-solid fa-xmark btn-cerrar-modal"></i>
+            </div>
+            <form id="formAula">
+                <input type="hidden" id="id_aula" name="id_aula">
+                <input type="hidden" id="opcion" name="opcion" value="1">
+                <div class="form-grid">
+                    <select id="nivel" name="nivel" required>
+                        <option value="">Seleccione Nivel...</option>
+                        <option value="Inicial">Inicial</option>
+                        <option value="Primaria">Primaria</option>
+                        <option value="Secundaria">Secundaria</option>
+                    </select>
+                    <input type="number" id="grado" name="grado" placeholder="Grado (ej: 1, 2, 3...)" min="1" max="6" required>
+                    <select id="seccion" name="seccion" required>
+                        <option value="">Seleccione Sección...</option>
+                        <option value="A">A</option>
+                        <option value="B">B</option>
+                        <option value="C">C</option>
+                        <option value="D">D</option>
+                    </select>
+                    <input type="number" id="vacantes_totales" name="vacantes_totales" placeholder="Vacantes Totales" min="1" required>
+                    <input type="number" id="vacantes_disponibles" name="vacantes_disponibles" placeholder="Vacantes Disponibles" min="0" required>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary btn-cerrar-modal">Cancelar</button>
+                    <button type="submit" class="btn btn-save">Guardar Datos</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- LIBRERIA SWEET ALERT -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <!-- LIBRERIA JS DE BOOTSTRAP -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+    <!-- ARCHIVO JS -->
+    <script src="js/aulas.js"></script>
+
+</body>
+</html>

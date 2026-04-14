@@ -56,8 +56,8 @@ $(document).ready(function () {
             success: function (respuesta) {
                 if (respuesta.exito) {
                     fila.fadeOut(400, function() {
-                $(this).remove(); });
-                
+                        $(this).remove(); 
+                        $('#totalRegistros').text($('#tablaAlumnos tr').length);});
                 Swal.fire('Eliminado', respuesta.mensaje,'success');
                 }
                 }
@@ -65,29 +65,44 @@ $(document).ready(function () {
             }
         });
     });
-// 5. EDITAR REGISTRO (Botón de Lápiz - Solo lógica inicial)
+// 5. EDITAR REGISTRO (Botón de Lápiz)
     $(document).on('click', '.fa-pen-to-square', function () {
         let fila = $(this).closest('tr');
-        let idAlumno  = fila.find('td:eq(0)').text();
-        let nombres   = fila.find('td:eq(1)').text();
-        let apellidos = fila.find('td:eq(2)').text();
-        let dni       = fila.find('td:eq(3)').text();
-        let fechaNac  = fila.find('td:eq(4)').text();
-        let celular   = fila.find('td:eq(5)').text();
-        let correo    = fila.find('td:eq(6)').text();
-        let estado    = fila.find('td:eq(7) span').text().trim();
-    // Cargar datos al formulario
+
+        // Leemos todos los datos desde los atributos data-* de la fila
+        // Así recuperamos campos que NO están visibles en las columnas de la tabla
+        let idAlumno    = fila.data('id');
+        let nombres     = fila.data('nombres');
+        let apellidos   = fila.data('apellidos');
+        let dni         = fila.data('dni');
+        let fechaNac    = fila.data('fecha-nac');
+        let edad        = fila.data('edad');
+        let genero      = fila.data('genero');
+        let direccion   = fila.data('direccion');
+        let celular     = fila.data('celular');
+        let correo      = fila.data('correo');
+        let apoderado   = fila.data('apoderado');
+        let celApoderado = fila.data('cel-apoderado');
+        let username    = fila.data('username');
+        let estado      = fila.data('estado');
+
+    // Cargar TODOS los datos al formulario
         $('#id_alumno').val(idAlumno);
         $('#opcion').val('2'); // Configurar acción: EDITAR
         $('#modalTitulo').text('Editar Alumno');
         $('#password').removeAttr('required'); // Contraseña opcional al editar
-    // PISTA: Para un proyecto completo, aquí debes llenar el resto de los $('#campo').val()
         $('#dni').val(dni);
         $('#nombres').val(nombres);
         $('#apellidos').val(apellidos);
         $('#fecha_nac').val(fechaNac);
+        $('#edad').val(edad);
+        $('#genero').val(genero);
+        $('#direccion').val(direccion);
         $('#celular').val(celular);
         $('#correo').val(correo);
+        $('#apoderado').val(apoderado);
+        $('#cel_apoderado').val(celApoderado);
+        $('#username').val(username);
         $('#estado').val(estado);
 
     $('#modalAlumno').fadeIn();
@@ -104,12 +119,13 @@ FUNCIÓN PARA CARGAR LA TABLA DESDE MYSQL
         success: function (data) {
             let tbody = $('#tablaAlumnos');
             tbody.empty(); // Limpiamos la tabla por si había algo antes
+            // Actualizar el contador con el total real de la base de datos
+            $('#totalRegistros').text(data.length);
             // Usamos un bucle para recorrer cada alumno que llegó desde la Base de Datos
         $.each(data, function (index, alumno) {
             // BADGE DE ESTADO
                     let badgeClass = '';
                     let badgeTexto = alumno.ESTADO;
-
                     if (alumno.ESTADO === 'Activo') {
                         badgeClass = 'status-active';
                     } else if (alumno.ESTADO === 'Inactivo') {
@@ -118,8 +134,25 @@ FUNCIÓN PARA CARGAR LA TABLA DESDE MYSQL
                         badgeClass = 'status-process';
                     }
             // Construimos la fila (tr) inyectando las variables de la base de datos
+            // IMPORTANTE: guardamos todos los campos en atributos data-* para poder
+            // recuperarlos completos al momento de editar, incluso los que no se ven en la tabla
             let fila = `
-            <tr>
+            <tr
+                data-id="${alumno.ID_ALUMNO}"
+                data-nombres="${alumno.NOMBRES}"
+                data-apellidos="${alumno.APELLIDOS}"
+                data-dni="${alumno.DNI_ALUMNO}"
+                data-fecha-nac="${alumno.FECHA_NACIMIENTO}"
+                data-edad="${alumno.EDAD}"
+                data-genero="${alumno.GENERO}"
+                data-direccion="${alumno.DIRECCION}"
+                data-celular="${alumno.CELULAR}"
+                data-correo="${alumno.CORREO}"
+                data-apoderado="${alumno.NOMBRE_APODERADO}"
+                data-cel-apoderado="${alumno.CELULAR_APODERADO}"
+                data-username="${alumno.USERNAME}"
+                data-estado="${alumno.ESTADO}"
+            >
             <td>${alumno.ID_ALUMNO}</td>
             <td>${alumno.NOMBRES}</td>
             <td>${alumno.APELLIDOS}</td>
