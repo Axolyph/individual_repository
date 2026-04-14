@@ -31,6 +31,7 @@ try {
         // Iniciar sesión en PHP (opcional pero recomendado para mantener el estado)
         session_start();
         $_SESSION['usuario_id'] = $usuarioFila['id'];
+        session_regenerate_id(true);
 
         echo json_encode([
             "exito" => true,

@@ -8,6 +8,12 @@
     --accent-color: #3498DB; /* Azul corporativo interactivo */
     --text-color: #333333;
     --border-color: #E0E0E0;
+    --background-Estado1: #D4EDDA; /* Fondo para estados */
+    --background-Estado2: #F8D7DA; /* Fondo para estados */
+    --background-Estado3: #FFF3CD; /* Fondo para estados */
+    --color-Estado1: #155724; /* Verde para activo */
+    --color-Estado2: #721C24; /* Rojo para inactivo */
+    --color-Estado3: #856404; /* Amarillo para en proceso */
     --card-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
     --zIndexNomal: 1;
     --zIndexToolTip: 10;
@@ -24,6 +30,7 @@
 body {
     background-color: var(--content-bg);
     color: var(--text-color);
+    font-family: 'Poppins', sans-serif;
 }
 .containers {
     display: flex;
@@ -33,13 +40,14 @@ body {
 3. BARRA LATERAL (SIDEBAR)
 ========================================= */
 .sidebar {
-    width: 260px;
+    width: 280px;
     background-color: var(--sidebar-bg);
     color: var(--sidebar-text);
     display: flex;
     flex-direction: column;
     position: fixed; /* Fija a la izquierda */
     height: 100%;
+    font-family: 'Poppins', sans-serif;
 }
 .sidebar-header {
     padding: 25px 20px;
@@ -77,6 +85,7 @@ body {
 .sidebar-nav li.active a {
     background-color: var(--accent-color);
     font-weight: 600;
+
 }
 .sidebar-nav li i {
     margin-right: 10px;
@@ -104,11 +113,11 @@ body {
     text-decoration: none;
 }
 /* =========================================
- 4. CONTENIDO PRINCIPAL Y CABECERA
+4. CONTENIDO PRINCIPAL Y CABECERA
 ========================================= */
 .main-content {
     flex: 1;
-    margin-left: 260px; /* Compensar la barra lateral fija */
+    margin-left: 280px; /* Compensar la barra lateral fija */
     display: flex;
     flex-direction: column;
 }
@@ -222,17 +231,17 @@ body {
     font-weight: 600;
 }
 .status-active {
-    background-color: #D4EDDA;
-    color: #155724;
+    background-color: var(--background-Estado1);
+    color: var(--color-Estado1);
 }
 .status-inactive {
-    background-color: #F8D7DA;
-    color: #721C24;
+    background-color: var(--background-Estado2);
+    color: var(--color-Estado2);
 }
 
 .status-process {
-    background-color: #FFF3CD;
-    color: #856404;
+    background-color: var(--background-Estado3);
+    color: var(--color-Estado3);
 }
 .action-icons i {
     cursor: pointer;
@@ -289,5 +298,9 @@ ESTILOS DEL MODAL (VENTANA EMERGENTE)
 }
 .btn-secondary {
     background-color: #95a5a6;
+    color: white;
+}
+.btn-save {
+    background-color: #2ecc71;
     color: white;
 }
