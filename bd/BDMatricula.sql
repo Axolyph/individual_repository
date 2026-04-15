@@ -72,7 +72,7 @@ SELECT * FROM ALUMNO
 
 INSERT INTO ALUMNO (DNI_ALUMNO, NOMBRES, APELLIDOS, FECHA_NACIMIENTO, EDAD, GENERO, DIRECCION, CELULAR, CORREO, NOMBRE_APODERADO, CELULAR_APODERADO, USERNAME, PASSWORD_HASH, ESTADO) 
 VALUES (
-    '47350997', 'Nikola', 'Tesla', '2024-05-15', 20, 'M', 'Av. peru','939429147', 'tesla@gmail.com','sonia', '939429147','Nikola', 'mundo', 'Activo'
+    '47350997', 'Nikola', 'Tesla', '2006-05-15', 20, 'M', 'Av. peru','939429147', 'tesla@gmail.com','sonia', '939429147','nikola.tesla', 'mundo', 'Activo'
 	);
 
 
@@ -88,8 +88,23 @@ CREATE TABLE CURSO(
 
 INSERT INTO CURSO (NOMBRE_CURSO, DESCRIPCION, NIVEL, GRADO, HORAS_SEMANALES, ESTADO)
 VALUES
-('Matemática', 'Aritmética y álgebra básica', 'Primaria', 1, 5, 'Activo'),
-('Comunicación', 'Lectura y escritura', 'Primaria', 1, 6, 'Activo'),
-('Ciencias', 'Ciencias naturales', 'Primaria', 1, 4, 'Activo'),
-('Matemática', 'Álgebra avanzada', 'Secundaria', 3, 5, 'Activo'),
-('Historia', 'Historia del Perú', 'Secundaria', 3, 3, 'Inactivo');
+('Matemática Base', 'Aritmética', 'Primaria', 1, 4, 'Activo'),
+('Comunicación', 'Lectura', 'Primaria', 1, 4, 'Activo'),
+('Ciencias', 'Ciencias Naturales', 'Primaria', 1, 2, 'Activo'),
+('Matemática', 'Trigonometría', 'Secundaria', 3, 4, 'Activo'),
+('Historia', 'Historia del Perú', 'Secundaria', 3, 2, 'Inactivo');
+
+
+-- TABLA MATRÍCULA
+CREATE TABLE MATRICULA (
+    ID_MATRICULA INT AUTO_INCREMENT PRIMARY KEY,
+    ID_ALUMNO INT NOT NULL,
+    ID_CURSO INT NOT NULL,
+    FECHA_MATRICULA DATE NOT NULL,
+    ANIO_ESCOLAR YEAR NOT NULL,
+    TURNO VARCHAR (20) NOT NULL,
+    ESTADO VARCHAR (20) DEFAULT 'Pendiente',
+    OBSERVACIONES TEXT,
+    FOREIGN KEY (ID_ALUMNO) REFERENCES ALUMNO(ID_ALUMNO),
+    FOREIGN KEY (ID_CURSO) REFERENCES CURSO(ID_CURSO)
+);
