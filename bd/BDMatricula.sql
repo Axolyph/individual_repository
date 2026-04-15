@@ -46,6 +46,7 @@ FOREIGN KEY (ID_ALUMNO) REFERENCES ALUMNO (ID_ALUMNO);
 ALTER TABLE reserva
 ADD CONSTRAINT FK_RELACION2
 FOREIGN KEY (ID_AULA) REFERENCES AULA (ID_AULA); 
+
 INSERT INTO aula (nivel, grado, seccion, vacantes_totales, vacantes_disponibles)
 VALUES
 ('Secundaria', 3, 'A', 30, 5),
@@ -69,8 +70,26 @@ SELECT * FROM USUARIO
 
 SELECT * FROM ALUMNO
 
-INSERT INTO ALUMNO (
-    DNI_ALUMNO, NOMBRES, APELLIDOS, FECHA_NACIMIENTO, EDAD, GENERO, DIRECCION, CELULAR, CORREO, NOMBRE_APODERADO, CELULAR_APODERADO, USERNAME, PASSWORD_HASH, ESTADO
-) VALUES (
-    '47350997', 'Melina', 'Minaya', '2024-05-15', 20, 'M', 'Av. peru','939929147', 'melina@gmail.com','sonia', '939929147','Melina', 'mundo', 'Activo'
+INSERT INTO ALUMNO (DNI_ALUMNO, NOMBRES, APELLIDOS, FECHA_NACIMIENTO, EDAD, GENERO, DIRECCION, CELULAR, CORREO, NOMBRE_APODERADO, CELULAR_APODERADO, USERNAME, PASSWORD_HASH, ESTADO) 
+VALUES (
+    '47350997', 'Nikola', 'Tesla', '2024-05-15', 20, 'M', 'Av. peru','939429147', 'tesla@gmail.com','sonia', '939429147','Nikola', 'mundo', 'Activo'
+	);
+
+
+CREATE TABLE CURSO(
+    ID_CURSO INT AUTO_INCREMENT PRIMARY KEY,
+    NOMBRE_CURSO VARCHAR(50) NOT NULL,
+    DESCRIPCION VARCHAR(30) NULL,
+    NIVEL VARCHAR(30) NOT NULL,
+    GRADO INT NOT NULL,
+    HORAS_SEMANALES INT NOT NULL,
+    ESTADO VARCHAR(20) NOT NULL DEFAULT 'Activo'
 );
+
+INSERT INTO CURSO (NOMBRE_CURSO, DESCRIPCION, NIVEL, GRADO, HORAS_SEMANALES, ESTADO)
+VALUES
+('Matemática', 'Aritmética y álgebra básica', 'Primaria', 1, 5, 'Activo'),
+('Comunicación', 'Lectura y escritura', 'Primaria', 1, 6, 'Activo'),
+('Ciencias', 'Ciencias naturales', 'Primaria', 1, 4, 'Activo'),
+('Matemática', 'Álgebra avanzada', 'Secundaria', 3, 5, 'Activo'),
+('Historia', 'Historia del Perú', 'Secundaria', 3, 3, 'Inactivo');
