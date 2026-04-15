@@ -304,3 +304,124 @@ ESTILOS DEL MODAL (VENTANA EMERGENTE)
     background-color: #2ecc71;
     color: white;
 }
+/* =========================================
+ESTILOS DEL RESUMEN DE MATRÍCULA
+========================================= */
+.resumen-matricula {
+    grid-column: 1 / -1;
+    padding: 12px;
+    background-color: #e3f2fd;
+    border-left: 4px solid #2196F3;
+    border-radius: 4px;
+    display: none;
+    margin-bottom: 10px;
+}
+.resumen-matricula p {
+    margin: 0;
+    font-size: 14px;
+    color: #1976d2;
+}
+/**/
+.config-section {
+    background: #fff;
+    border-radius: 10px;
+    box-shadow: var(--card-shadow);
+    margin-bottom: 25px;
+    overflow: hidden;
+}
+.config-section-header {
+    padding: 18px 25px;
+    border-bottom: 1px solid var(--border-color);
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    background: linear-gradient(135deg, var(--sidebar-bg), #34495E);
+    color: white;
+}
+.config-section-header i {
+    font-size: 1.2rem;
+}
+        .config-section-header h3 {
+            font-size: 1rem;
+            font-weight: 600;
+            margin: 0;
+        }
+        .config-body {
+            padding: 25px;
+        }
+        .config-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 18px;
+        }
+        .config-grid.single {
+            grid-template-columns: 1fr;
+        }
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+        .form-group label {
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: #555;
+        }
+        .form-group input,
+        .form-group select {
+            padding: 10px 14px;
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+            font-family: 'Poppins', sans-serif;
+            font-size: 0.9rem;
+            transition: border-color 0.3s;
+        }
+        .form-group input:focus,
+        .form-group select:focus {
+            outline: none;
+            border-color: var(--accent-color);
+        }
+        .config-footer {
+            padding: 15px 25px;
+            border-top: 1px solid var(--border-color);
+            display: flex;
+            justify-content: flex-end;
+        }
+        .btn-guardar {
+            background-color: #2ecc71;
+            color: white;
+            padding: 10px 24px;
+            border: none;
+            border-radius: 6px;
+            font-family: 'Poppins', sans-serif;
+            font-weight: 600;
+            cursor: pointer;
+            font-size: 0.9rem;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .btn-guardar:hover {
+            background-color: #27ae60;
+        }
+        .password-wrapper {
+            position: relative;
+        }
+        .password-wrapper input {
+            width: 100%;
+            padding-right: 40px;
+        }
+        .password-wrapper i {
+            position: absolute;
+            right: 12px;
+            top: 50%;
+            transform: translateY(-50%);
+            cursor: pointer;
+            color: #888;
+        }
+        .alert-password {
+            font-size: 0.8rem;
+            color: #e74c3c;
+            display: none;
+            margin-top: 4px;
+        }
