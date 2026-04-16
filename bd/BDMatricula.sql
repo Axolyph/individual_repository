@@ -100,7 +100,7 @@ CREATE TABLE MATRICULA (
     ID_ALUMNO INT NOT NULL,
     ID_CURSO INT NOT NULL,
     FECHA_MATRICULA DATE NOT NULL,
-    ANIO_ESCOLAR YEAR NOT NULL,
+    FECHA_ESCOLAR YEAR NOT NULL,
     TURNO VARCHAR (20) NOT NULL,
     ESTADO VARCHAR (20) DEFAULT 'Pendiente',
     OBSERVACIONES TEXT,
@@ -128,8 +128,7 @@ CREATE TABLE CONFIGURACION (
 
 INSERT INTO CONFIGURACION (CLAVE, VALOR) VALUES
 ('nombre_colegio', 'Heroes del Pacifico'),
-('San Martin de Porres', 'Av. Peru'),
+('direccion', 'Av. Peru'),
 ('telefono', '988111223'),
 ('correo', 'heroespacifico@edu.pe'),
 ('fecha_escolar', '2025');
-

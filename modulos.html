@@ -74,7 +74,7 @@
                 </div>
             </header>
 
-            <!-- ========== MÓDULO DASHBOARD ========== -->
+            <!-- ========== MODULO DASHBOARD ========== -->
             <div id="modulo-dashboard" class="modulo" style="display: none;">
                 <div class="content-body">
                     <div class="card welcome-card">
@@ -137,7 +137,7 @@
                 </div>
             </div>
 
-            <!-- ========== MÓDULO ESTUDIANTES ========== -->
+            <!-- ========== MODULO ESTUDIANTES ========== -->
             <div id="modulo-estudiantes" class="modulo active">
                 <div class="content-body">
                     <div class="card table-card">
@@ -169,7 +169,7 @@
                 </div>
             </div>
 
-            <!-- ========== MÓDULO CURSOS ========== -->
+            <!-- ========== MODULO CURSOS ========== -->
             <div id="modulo-cursos" class="modulo" style="display: none;">
                 <div class="content-body">
                     <div class="card table-card">
@@ -200,7 +200,7 @@
                 </div>
             </div>
 
-            <!-- ========== MÓDULO AULAS ========== -->
+            <!-- ========== MODULO AULAS ========== -->
             <div id="modulo-aulas" class="modulo" style="display: none;">
                 <div class="content-body">
                     <div class="card table-card">
@@ -230,7 +230,7 @@
                 </div>
             </div>
 
-            <!-- ========== MÓDULO MATRÍCULAS ========== -->
+            <!-- ========== MODULO MATRÍCULAS ========== -->
             <div id="modulo-matriculas" class="modulo" style="display: none;">
                 <div class="content-body">
                     <div class="card table-card">
@@ -263,7 +263,7 @@
                 </div>
             </div>
 
-            <!-- ========== MÓDULO PAGOS ========== -->
+            <!-- ========== MODULO PAGOS ========== -->
             <div id="modulo-pagos" class="modulo" style="display: none;">
                 <div class="content-body">
                     <div class="card table-card">
@@ -296,7 +296,7 @@
                 </div>
             </div>
 
-            <!-- ========== MÓDULO CONFIGURACIÓN ========== -->
+            <!-- ========== MODULO CONFIGURACIÓN ========== -->
             <div id="modulo-configuracion" class="modulo" style="display: none;">
                 <div class="content-body">
                     <!-- SECCIÓN 1: DATOS DEL COLEGIO -->
@@ -322,7 +322,7 @@
                                     </div>
                                     <div class="form-group">
                                         <label>Teléfono</label>
-                                        <input type="text" id="telefono" name="telefono" placeholder="01-1234567">
+                                        <input type="text" id="telefono" name="telefono" placeholder="988111223" maxlength="9">
                                     </div>
                                 </div>
                             </div>
@@ -340,12 +340,12 @@
                             <i class="fa-solid fa-calendar-days"></i>
                             <h3>Año Escolar Activo</h3>
                         </div>
-                        <form id="formAnio">
+                        <form id="formFecha">
                             <div class="config-body">
                                 <div class="config-grid single">
                                     <div class="form-group">
                                         <label>Año Escolar Vigente</label>
-                                        <select id="anio_escolar" name="anio_escolar">
+                                        <select id="fecha_escolar" name="fecha_escolar">
                                             <option value="2023">2023</option>
                                             <option value="2024">2024</option>
                                             <option value="2025" selected>2025</option>
@@ -543,7 +543,7 @@
                         <option value="">Seleccione Curso/Grado...</option>
                     </select>
                     <input type="date" id="fecha_matricula" name="fecha_matricula" required>
-                    <input type="number" id="anio_escolar" name="anio_escolar" placeholder="Año Escolar (ej: 2025)" min="2020" max="2099" required>
+                    <input type="number" id="fecha_escolar" name="fecha_escolar" placeholder="Año Escolar (ej: 2025)" min="2020" max="2099" required>
                     <select id="turno" name="turno" required>
                         <option value="">Seleccione Turno...</option>
                         <option value="Mañana">Mañana</option>
