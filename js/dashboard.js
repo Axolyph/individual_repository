@@ -1016,14 +1016,14 @@ $(document).ready(function () {
                 $('#kpiTotalAulas').text(kpis.totalAulas);
                 $('#kpiVacantesDisp').text(kpis.vacantesDisp);
 
-                const generos = respuesta.datos.graficos.generos.map(function (item) {
+                const generos = respuesta.datos.graficos.genero.map(function (item) {
                     return { label: nombreGenero(item.GENERO), value: item.cantidad };
                 });
                 dibujarGraficoGenero(generos.map(g => g.label), generos.map(g => g.value));
 
                 const niveles = respuesta.datos.graficos.niveles;
                 dibujarGraficoNiveles(
-                    niveles.map(n => n.nivel),
+                    niveles.map(n => n.NIVEL),
                     niveles.map(n => Number(n.totales)),
                     niveles.map(n => Number(n.disponibles))
                 );
