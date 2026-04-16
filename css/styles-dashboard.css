@@ -607,3 +607,12 @@ ESTILOS DEL RESUMEN DE MATRÍCULA
         grid-template-columns: 1fr;
     }
 }
+#observaciones {
+    grid-column: 1 / -1;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    font-family: 'Poppins', sans-serif;
+    resize: vertical;
+    min-height: 80px;
+}
