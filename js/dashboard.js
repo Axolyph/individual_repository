@@ -40,20 +40,31 @@ $(document).ready(function() {
     // Evento para los links del sidebar con data-module
     $(document).on('click', '[data-module]', function(e) {
         const href = $(this).attr('href');
-    // Si el href apunta a otro archivo, deja que navegue normalmente
-    if (href && href !== '#' && !href.startsWith('#')) {
-        return; // No previene el default, navega al archivo
-    }
-        e.preventDefault();
         const module = $(this).data('module');
+
+        // Si el enlace apunta a otro archivo, guarda el módulo antes de navegar
+        if (href && href !== '#' && !href.startsWith('#')) {
+            if (module) {
+                localStorage.setItem('moduloActivo', module);
+            }
+            return; // No previene el default, navega al archivo
+        }
+
+        e.preventDefault();
         cambiarModulo(module);
     });
     
     // Recuperar módulo activo al recargar página
-    const moduloGuardado = window.location.pathname.endsWith('dashboard.html')
-        ? 'dashboard'
-        : (localStorage.getItem('moduloActivo') || 'estudiantes');
-    if (moduloGuardado !== 'estudiantes') {
+    const paginaActual = window.location.pathname.split('/').pop().toLowerCase();
+    let moduloGuardado = localStorage.getItem('moduloActivo') || 'estudiantes';
+
+    if (paginaActual === 'dashboard.html') {
+        moduloGuardado = 'dashboard';
+    } else if (paginaActual === 'modulos.html' && moduloGuardado === 'dashboard') {
+        moduloGuardado = 'estudiantes';
+    }
+
+    if (paginaActual !== 'modulos.html' || moduloGuardado !== 'estudiantes') {
         cambiarModulo(moduloGuardado);
     }
     
@@ -572,7 +583,7 @@ $(document).ready(function () {
         let idAlumno       = fila.data('id-alumno');
         let idCurso        = fila.data('id-curso');
         let fechaMatricula = fila.data('fecha');
-        let anioEscolar    = fila.data('anio');
+        let fechaEscolar    = fila.data('fecha_escolar');
         let turno          = fila.data('turno');
         let estado         = fila.data('estado');
         let observaciones  = fila.data('observaciones');
@@ -585,7 +596,7 @@ $(document).ready(function () {
             $('#id_alumno').val(idAlumno);
             $('#id_curso').val(idCurso);
             $('#fecha_matricula').val(fechaMatricula);
-            $('#anio_escolar').val(anioEscolar);
+            $('#fecha_escolar').val(fechaEscolar);
             $('#turno').val(turno);
             $('#estado').val(estado);
             $('#observaciones').val(observaciones);
@@ -611,12 +622,12 @@ $(document).ready(function () {
                     else if (m.ESTADO === 'Pendiente') badgeClass = 'status-process';
 
                     let fila = `
-                    <tr data-id="${m.ID_MATRICULA}" data-id-alumno="${m.ID_ALUMNO}" data-id-curso="${m.ID_CURSO}" data-fecha="${m.FECHA_MATRICULA}" data-anio="${m.ANIO_ESCOLAR}" data-turno="${m.TURNO}" data-estado="${m.ESTADO}" data-observaciones="${m.OBSERVACIONES ?? ''}">
+                    <tr data-id="${m.ID_MATRICULA}" data-id-alumno="${m.ID_ALUMNO}" data-id-curso="${m.ID_CURSO}" data-fecha="${m.FECHA_MATRICULA}" data-fecha="${m.FECHA_ESCOLAR}" data-turno="${m.TURNO}" data-estado="${m.ESTADO}" data-observaciones="${m.OBSERVACIONES ?? ''}">
                         <td>${m.ID_MATRICULA}</td>
                         <td>${m.NOMBRE_ALUMNO}</td>
                         <td>${m.NOMBRE_CURSO}</td>
                         <td>${m.FECHA_MATRICULA}</td>
-                        <td>${m.ANIO_ESCOLAR}</td>
+                        <td>${m.FECHA_ESCOLAR}</td>
                         <td>${m.TURNO}</td>
                         <td><span class="status-badge ${badgeClass}">${m.ESTADO}</span></td>
                         <td class="action-icons"><i class="fa-solid fa-pen-to-square"></i><i class="fa-solid fa-eye"></i><i class="fa-solid fa-trash"></i></td>
@@ -817,7 +828,7 @@ $(document).ready(function () {
                 if (config.correo)         $('#correo').val(config.correo);
                 if (config.direccion)      $('#direccion').val(config.direccion);
                 if (config.telefono)       $('#telefono').val(config.telefono);
-                if (config.anio_escolar)   $('#anio_escolar').val(config.anio_escolar);
+                if (config.fecha_escolar)   $('#fecha_escolar').val(config.fecha_escolar);
             }
         });
     }
@@ -842,7 +853,7 @@ $(document).ready(function () {
     });
 
     // 2. GUARDAR AÑO ESCOLAR
-    $('#formAnio').submit(function (e) {
+    $('#formFecha').submit(function (e) {
         e.preventDefault();
         $.ajax({
             url: "php/crud_configuracion.php",
