@@ -95,7 +95,6 @@ VALUES
 ('Historia', 'Historia del Perú', 'Secundaria', 3, 2, 'Inactivo');
 
 
--- TABLA MATRÍCULA
 CREATE TABLE MATRICULA (
     ID_MATRICULA INT AUTO_INCREMENT PRIMARY KEY,
     ID_ALUMNO INT NOT NULL,
@@ -128,9 +127,9 @@ CREATE TABLE CONFIGURACION (
 );
 
 INSERT INTO CONFIGURACION (CLAVE, VALOR) VALUES
-('nombre_colegio', 'Mi Colegio'),
-('direccion', 'Av. Principal 123'),
-('telefono', '01-1234567'),
-('correo', 'colegio@gmail.com'),
-('anio_escolar', '2025');
+('nombre_colegio', 'Heroes del Pacifico'),
+('San Martin de Porres', 'Av. Peru'),
+('telefono', '988111223'),
+('correo', 'heroespacifico@edu.pe'),
+('fecha_escolar', '2025');
 
