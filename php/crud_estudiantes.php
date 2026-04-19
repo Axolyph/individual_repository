@@ -46,7 +46,7 @@ try {
                     $_POST['fecha_nac'],    $_POST['edad'],          $_POST['genero'],
                     $_POST['direccion'],    $_POST['celular'],       $_POST['correo'],
                     $_POST['apoderado'],    $_POST['cel_apoderado'], $_POST['username'],
-                    $hash,                  $_POST['estado'],        $_POST['id_alumno']
+                    $hash,                  $_POST['estado'],        $_POST['id_matricula']  // ← CORREGIDO
                 ];
             } else {
                 $sql  = "UPDATE ALUMNO SET DNI_ALUMNO=?, NOMBRES=?, APELLIDOS=?,
@@ -59,7 +59,7 @@ try {
                     $_POST['fecha_nac'],    $_POST['edad'],          $_POST['genero'],
                     $_POST['direccion'],    $_POST['celular'],       $_POST['correo'],
                     $_POST['apoderado'],    $_POST['cel_apoderado'], $_POST['username'],
-                    $_POST['estado'],       $_POST['id_alumno']
+                    $_POST['estado'],       $_POST['id_matricula']   // ← CORREGIDO
                 ];
             }
             $stmt = $pdo->prepare($sql);
@@ -94,4 +94,4 @@ try {
 } catch (PDOException $e) {
     echo json_encode(["exito" => false, "mensaje" => "Error BD: " . $e->getMessage()]);
 }
-?>  
+?>

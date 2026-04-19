@@ -1,4 +1,3 @@
-
 /* ========================================================================
     SISTEMA DE MATRICULA - ARCHIVO CONSOLIDADO DE JAVASCRIPT
     ======================================================================== 
@@ -16,44 +15,29 @@
 // =====================================================================
 $(document).ready(function() {
     
-    // Función para cambiar de módulo
     function cambiarModulo(nombreModulo) {
-        // Ocultar todos los módulos con una transición
         $('.modulo').fadeOut(300, function() {
             $(this).hide();
         });
-        
-        // Mostrar el módulo seleccionado
         setTimeout(function() {
             $('#modulo-' + nombreModulo).fadeIn(300).show();
         }, 300);
-        
-        // Actualizar clases activas en sidebar
         $('.sidebar-nav li').removeClass('active');
         $('[data-module="' + nombreModulo + '"]').closest('li').addClass('active');
-        
-        // Guardar en localStorage para mantener estado
         localStorage.setItem('moduloActivo', nombreModulo);
     }
     
-    // Evento para los links del sidebar con data-module
     $(document).on('click', '[data-module]', function(e) {
         const href = $(this).attr('href');
         const module = $(this).data('module');
-
-        // Si el enlace apunta a otro archivo, guarda el módulo antes de navegar
         if (href && href !== '#' && !href.startsWith('#')) {
-            if (module) {
-                localStorage.setItem('moduloActivo', module);
-            }
-            return; // No previene el default, navega al archivo
+            if (module) localStorage.setItem('moduloActivo', module);
+            return;
         }
-
         e.preventDefault();
         cambiarModulo(module);
     });
     
-    // Recuperar módulo activo al recargar página
     const paginaActual = window.location.pathname.split('/').pop().toLowerCase();
     let moduloGuardado = localStorage.getItem('moduloActivo') || 'estudiantes';
 
@@ -66,7 +50,6 @@ $(document).ready(function() {
     if (paginaActual !== 'modulos.php' || moduloGuardado !== 'estudiantes') {
         cambiarModulo(moduloGuardado);
     }
-    
 });
 
 // =====================================================================
@@ -77,7 +60,7 @@ $(document).ready(function () {
     // 1. ABRIR MODAL PARA NUEVO REGISTRO
     $(document).on('click', '#modulo-estudiantes .btn-primary', function () {
         $('#formAlumno')[0].reset();
-        $('#opcion').val('1');
+        $('#modalAlumno #opcion').val('1');
         $('#modalTitulo').text('Registrar Nuevo Alumno');
         $('#password').attr('required', true);
         $('#modalAlumno').fadeIn();
@@ -99,7 +82,7 @@ $(document).ready(function () {
             success: function (respuesta) {
                 if (respuesta.exito) {
                     $('#modalAlumno').fadeOut();
-                    Swal.fire('¡Éxito!', respuesta.mensaje,'success').then(() => {
+                    Swal.fire('¡Éxito!', respuesta.mensaje, 'success').then(() => {
                         location.reload();
                     });
                 } else {
@@ -109,7 +92,7 @@ $(document).ready(function () {
         });
     });
 
-    // 4. ELIMINAR REGISTRO (Click en el basurero)
+    // 4. ELIMINAR REGISTRO
     $(document).on('click', '#modulo-estudiantes .fa-trash', function () {
         let fila = $(this).closest('tr');
         let idAlumno = fila.find('td:eq(0)').text();
@@ -135,7 +118,7 @@ $(document).ready(function () {
                                 $(this).remove(); 
                                 $('#totalRegistros').text($('#tablaAlumnos tr').length);
                             });
-                            Swal.fire('Eliminado', respuesta.mensaje,'success');
+                            Swal.fire('Eliminado', respuesta.mensaje, 'success');
                         }
                     }
                 });
@@ -143,26 +126,26 @@ $(document).ready(function () {
         });
     });
 
-    // 5. EDITAR REGISTRO (Botón de Lápiz)
+    // 5. EDITAR REGISTRO
     $(document).on('click', '#modulo-estudiantes .fa-pen-to-square', function () {
         let fila = $(this).closest('tr');
-        let idAlumno    = fila.data('id');
-        let nombres     = fila.data('nombres');
-        let apellidos   = fila.data('apellidos');
-        let dni         = fila.data('dni');
-        let fechaNac    = fila.data('fecha-nac');
-        let edad        = fila.data('edad');
-        let genero      = fila.data('genero');
-        let direccion   = fila.data('direccion');
-        let celular     = fila.data('celular');
-        let correo      = fila.data('correo');
-        let apoderado   = fila.data('apoderado');
+        let idAlumno     = fila.data('id');
+        let nombres      = fila.data('nombres');
+        let apellidos    = fila.data('apellidos');
+        let dni          = fila.data('dni');
+        let fechaNac     = fila.data('fecha-nac');
+        let edad         = fila.data('edad');
+        let genero       = fila.data('genero');
+        let direccion    = fila.data('direccion');
+        let celular      = fila.data('celular');
+        let correo       = fila.data('correo');
+        let apoderado    = fila.data('apoderado');
         let celApoderado = fila.data('cel-apoderado');
-        let username    = fila.data('username');
-        let estado      = fila.data('estado');
+        let username     = fila.data('username');
+        let estado       = fila.data('estado');
 
-        $('#id_alumno').val(idAlumno);
-        $('#opcion').val('2');
+        $('#modalAlumno #hidden_id_matricula').val(idAlumno);
+        $('#modalAlumno #opcion').val('2');
         $('#modalTitulo').text('Editar Alumno');
         $('#password').removeAttr('required');
         $('#dni').val(dni);
@@ -177,7 +160,7 @@ $(document).ready(function () {
         $('#apoderado').val(apoderado);
         $('#cel_apoderado').val(celApoderado);
         $('#username').val(username);
-        $('#estado').val(estado);
+        $('#modalAlumno #estado').val(estado);
 
         $('#modalAlumno').fadeIn();
     });
@@ -228,7 +211,7 @@ $(document).ready(function () {
     // 1. ABRIR MODAL PARA NUEVO CURSO
     $(document).on('click', '#modulo-cursos .btn-nuevo-curso', function () {
         $('#formCurso')[0].reset();
-        $('#opcion').val('1');
+        $('#modalCurso #opcion').val('1');
         $('#modalTituloCurso').text('Registrar Nuevo Curso');
         $('#modalCurso').fadeIn();
     });
@@ -304,15 +287,15 @@ $(document).ready(function () {
         let horasSemanales = fila.data('horas');
         let estado         = fila.data('estado');
 
-        $('#id_curso').val(idCurso);
-        $('#opcion').val('2');
+        $('#modalCurso #id_curso').val(idCurso);
+        $('#modalCurso #opcion').val('2');
         $('#modalTituloCurso').text('Editar Curso');
         $('#nombre_curso').val(nombreCurso);
         $('#descripcion').val(descripcion);
-        $('#nivel').val(nivel);
-        $('#grado').val(grado);
+        $('#modalCurso #nivel').val(nivel);
+        $('#modalCurso #grado').val(grado);
         $('#horas_semanales').val(horasSemanales);
-        $('#estado').val(estado);
+        $('#modalCurso #estado').val(estado);
 
         $('#modalCurso').fadeIn();
     });
@@ -361,7 +344,7 @@ $(document).ready(function () {
     // 1. ABRIR MODAL PARA NUEVA AULA
     $(document).on('click', '#modulo-aulas .btn-nueva-aula', function () {
         $('#formAula')[0].reset();
-        $('#opcion').val('1');
+        $('#modalAula #opcion').val('1');
         $('#modalTituloAula').text('Registrar Nueva Aula');
         $('#modalAula').fadeIn();
     });
@@ -436,12 +419,12 @@ $(document).ready(function () {
         let vacantesTotales     = fila.data('vacantes-totales');
         let vacantesDisponibles = fila.data('vacantes-disponibles');
 
-        $('#id_aula').val(idAula);
-        $('#opcion').val('2');
+        $('#modalAula #id_aula').val(idAula);
+        $('#modalAula #opcion').val('2');
         $('#modalTituloAula').text('Editar Aula');
-        $('#nivel').val(nivel);
-        $('#grado').val(grado);
-        $('#seccion').val(seccion);
+        $('#modalAula #nivel').val(nivel);
+        $('#modalAula #grado').val(grado);
+        $('#modalAula #seccion').val(seccion);
         $('#vacantes_totales').val(vacantesTotales);
         $('#vacantes_disponibles').val(vacantesDisponibles);
 
@@ -486,7 +469,6 @@ $(document).ready(function () {
 // =====================================================================
 $(document).ready(function () {
 
-    // CARGAR SELECTS
     function cargarSelects() {
         $.ajax({
             url: "php/crud_matriculas.php",
@@ -513,7 +495,7 @@ $(document).ready(function () {
     // 1. ABRIR MODAL
     $(document).on('click', '#modulo-matriculas .btn-nueva-matricula', function () {
         $('#formMatricula')[0].reset();
-        $('#opcion').val('1');
+        $('#modalMatricula #opcion').val('1');
         $('#modalTituloMatricula').text('Registrar Nueva Matrícula');
         cargarSelects();
         $('#modalMatricula').fadeIn();
@@ -586,23 +568,23 @@ $(document).ready(function () {
         let idAlumno       = fila.data('id-alumno');
         let idCurso        = fila.data('id-curso');
         let fechaMatricula = fila.data('fecha');
-        let fechaEscolar    = fila.data('fecha_escolar');
+        let fechaEscolar   = fila.data('fecha_escolar');
         let turno          = fila.data('turno');
         let estado         = fila.data('estado');
         let observaciones  = fila.data('observaciones');
 
         cargarSelects();
         setTimeout(function () {
-            $('#hidden_id_matricula').val(idMatricula);
-            $('#opcion').val('2');
+            $('#modalMatricula #hidden_id_matricula').val(idMatricula);
+            $('#modalMatricula #opcion').val('2');
             $('#modalTituloMatricula').text('Editar Matrícula');
-            $('#id_alumno').val(idAlumno);
-            $('#id_curso').val(idCurso);
+            $('#modalMatricula #id_alumno').val(idAlumno);
+            $('#modalMatricula #id_curso').val(idCurso);
             $('#fecha_matricula').val(fechaMatricula);
             $('#fecha_escolar').val(fechaEscolar);
-            $('#turno').val(turno);
-            $('#estado').val(estado);
-            $('#observaciones').val(observaciones);
+            $('#modalMatricula #turno').val(turno);
+            $('#modalMatricula #estado').val(estado);
+            $('#modalMatricula #observaciones').val(observaciones);
         }, 300);
         $('#modalMatricula').fadeIn();
     });
@@ -620,8 +602,8 @@ $(document).ready(function () {
                 $('#totalRegistrosMatriculas').text(data.length);
                 $.each(data, function (index, m) {
                     let badgeClass = '';
-                    if (m.ESTADO === 'Activo')        badgeClass = 'status-active';
-                    else if (m.ESTADO === 'Inactivo') badgeClass = 'status-inactive';
+                    if (m.ESTADO === 'Activo')         badgeClass = 'status-active';
+                    else if (m.ESTADO === 'Inactivo')  badgeClass = 'status-inactive';
                     else if (m.ESTADO === 'Pendiente') badgeClass = 'status-process';
 
                     let fila = `
@@ -648,27 +630,26 @@ $(document).ready(function () {
 // =====================================================================
 $(document).ready(function () {
 
-    // CARGAR SELECTS
     function cargarSelects() {
         $.ajax({
-        url: "php/crud_pagos.php",
-        type: "POST",
-        dataType: "json",
-        data: { opcion: 5 },
-        success: function (data) {
-            let selectMatricula = $('#modalPago #id_matricula');  // ← selector específico
-            selectMatricula.find('option:not(:first)').remove();
-            $.each(data.matriculas, function (i, m) {
-                selectMatricula.append(`<option value="${m.ID_MATRICULA}">${m.DESCRIPCION}</option>`);
-            });
-        }
-    });
-}
+            url: "php/crud_pagos.php",
+            type: "POST",
+            dataType: "json",
+            data: { opcion: 5 },
+            success: function (data) {
+                let selectMatricula = $('#modalPago #id_matricula');
+                selectMatricula.find('option:not(:first)').remove();
+                $.each(data.matriculas, function (i, m) {
+                    selectMatricula.append(`<option value="${m.ID_MATRICULA}">${m.DESCRIPCION}</option>`);
+                });
+            }
+        });
+    }
 
     // 1. ABRIR MODAL
     $(document).on('click', '#modulo-pagos .btn-nuevo-pago', function () {
         $('#formPago')[0].reset();
-        $('#opcion').val('1');
+        $('#modalPago #opcion').val('1');
         $('#modalTituloPago').text('Registrar Nuevo Pago');
         cargarSelects();
         $('#resumenMatricula').hide();
@@ -676,17 +657,17 @@ $(document).ready(function () {
     });
 
     // MOSTRAR INFO DE MATRÍCULA
-    $(document).on('change', '#modalPago #id_matricula', function () {  // ← agregar #modalPago
-    let selectedText = $(this).find('option:selected').text();
-    if ($(this).val() !== '') {
-        let partes = selectedText.split(' - ');
-        $('#nombreAlumno').text(partes[0]);
-        $('#nombreCurso').text(partes[1]);
-        $('#resumenMatricula').slideDown(300);
-    } else {
-        $('#resumenMatricula').slideUp(300);
-    }
-});
+    $(document).on('change', '#modalPago #id_matricula', function () {
+        let selectedText = $(this).find('option:selected').text();
+        if ($(this).val() !== '') {
+            let partes = selectedText.split(' - ');
+            $('#nombreAlumno').text(partes[0]);
+            $('#nombreCurso').text(partes[1]);
+            $('#resumenMatricula').slideDown(300);
+        } else {
+            $('#resumenMatricula').slideUp(300);
+        }
+    });
 
     // 2. CERRAR MODAL
     $(document).on('click', '#modalPago .btn-cerrar-modal', function () {
@@ -762,16 +743,16 @@ $(document).ready(function () {
 
         cargarSelects();
         setTimeout(function () {
-            $('#id_pago').val(idPago);
-            $('#opcion').val('2');
+            $('#modalPago #id_pago').val(idPago);
+            $('#modalPago #opcion').val('2');
             $('#modalTituloPago').text('Editar Pago');
-            $('#id_matricula').val(idMatricula);
+            $('#modalPago #id_matricula').val(idMatricula);
             $('#concepto').val(concepto);
             $('#monto').val(monto);
             $('#fecha_pago').val(fechaPago);
-            $('#metodo_pago').val(metodoPago);
-            $('#estado').val(estado);
-            $('#observaciones').val(observaciones);
+            $('#modalPago #metodo_pago').val(metodoPago);
+            $('#modalPago #estado').val(estado);
+            $('#modalPago #observaciones').val(observaciones);
         }, 300);
         $('#modalPago').fadeIn();
     });
@@ -789,7 +770,7 @@ $(document).ready(function () {
                 $('#totalRegistrosPagos').text(data.length);
                 $.each(data, function (index, p) {
                     let badgeClass = '';
-                    if (p.ESTADO === 'Pagado')        badgeClass = 'status-active';
+                    if (p.ESTADO === 'Pagado')         badgeClass = 'status-active';
                     else if (p.ESTADO === 'Pendiente') badgeClass = 'status-process';
                     else if (p.ESTADO === 'Anulado')   badgeClass = 'status-inactive';
                     let montoFormateado = 'S/. ' + parseFloat(p.MONTO).toFixed(2);
@@ -818,7 +799,6 @@ $(document).ready(function () {
 // =====================================================================
 $(document).ready(function () {
 
-    // CARGAR CONFIGURACIÓN AL INICIAR
     function cargarConfiguracion() {
         $.ajax({
             url: "php/crud_configuracion.php",
@@ -830,13 +810,12 @@ $(document).ready(function () {
                 if (config.correo)         $('#correo').val(config.correo);
                 if (config.direccion)      $('#direccion').val(config.direccion);
                 if (config.telefono)       $('#telefono').val(config.telefono);
-                if (config.fecha_escolar)   $('#fecha_escolar').val(config.fecha_escolar);
+                if (config.fecha_escolar)  $('#fecha_escolar').val(config.fecha_escolar);
             }
         });
     }
     cargarConfiguracion();
 
-    // 1. GUARDAR DATOS DEL COLEGIO
     $('#formColegio').submit(function (e) {
         e.preventDefault();
         $.ajax({
@@ -854,7 +833,6 @@ $(document).ready(function () {
         });
     });
 
-    // 2. GUARDAR AÑO ESCOLAR
     $('#formFecha').submit(function (e) {
         e.preventDefault();
         $.ajax({
@@ -872,7 +850,6 @@ $(document).ready(function () {
         });
     });
 
-    // 3. CAMBIAR CONTRASEÑA
     $('#formPassword').submit(function (e) {
         e.preventDefault();
         let passwordNueva     = $('#password_nueva').val();
@@ -900,11 +877,9 @@ $(document).ready(function () {
         });
     });
 
-    // MOSTRAR/OCULTAR CONTRASEÑA
     $(document).on('click', '.toggle-pass', function () {
         let targetId = $(this).data('target');
         let input    = $('#' + targetId);
-
         if (input.attr('type') === 'password') {
             input.attr('type', 'text');
             $(this).removeClass('fa-eye').addClass('fa-eye-slash');
@@ -914,7 +889,6 @@ $(document).ready(function () {
         }
     });
 
-    // OCULTAR ALERTA AL ESCRIBIR
     $('#password_confirmar').on('input', function () {
         if ($('#password_nueva').val() === $(this).val()) {
             $('#alertPassword').hide();
@@ -929,9 +903,7 @@ let chartGenero = null;
 let chartNiveles = null;
 
 $(document).ready(function () {
-    if ($('#kpiTotalAlumnos').length === 0) {
-        return;
-    }
+    if ($('#kpiTotalAlumnos').length === 0) return;
 
     function nombreGenero(valor) {
         if (valor === 'M') return 'Masculino';
@@ -941,9 +913,7 @@ $(document).ready(function () {
 
     function dibujarGraficoGenero(etiquetas, datos) {
         const ctx = document.getElementById('graficoGenero').getContext('2d');
-        if (chartGenero) {
-            chartGenero.destroy();
-        }
+        if (chartGenero) chartGenero.destroy();
         chartGenero = new Chart(ctx, {
             type: 'doughnut',
             data: {
@@ -958,46 +928,28 @@ $(document).ready(function () {
             options: {
                 responsive: true,
                 maintainAspectRatio: false,
-                plugins: {
-                    legend: { position: 'bottom' }
-                }
+                plugins: { legend: { position: 'bottom' } }
             }
         });
     }
 
     function dibujarGraficoNiveles(etiquetas, totales, disponibles) {
         const ctx = document.getElementById('graficoNiveles').getContext('2d');
-        if (chartNiveles) {
-            chartNiveles.destroy();
-        }
+        if (chartNiveles) chartNiveles.destroy();
         chartNiveles = new Chart(ctx, {
             type: 'bar',
             data: {
                 labels: etiquetas,
                 datasets: [
-                    {
-                        label: 'Vacantes Totales',
-                        data: totales,
-                        backgroundColor: '#5A9BDC',
-                        borderRadius: 8,
-                    },
-                    {
-                        label: 'Vacantes Disponibles',
-                        data: disponibles,
-                        backgroundColor: '#2ECC71',
-                        borderRadius: 8,
-                    }
+                    { label: 'Vacantes Totales',     data: totales,     backgroundColor: '#5A9BDC', borderRadius: 8 },
+                    { label: 'Vacantes Disponibles', data: disponibles, backgroundColor: '#2ECC71', borderRadius: 8 }
                 ]
             },
             options: {
                 responsive: true,
                 maintainAspectRatio: false,
-                scales: {
-                    y: { beginAtZero: true }
-                },
-                plugins: {
-                    legend: { position: 'bottom' }
-                }
+                scales: { y: { beginAtZero: true } },
+                plugins: { legend: { position: 'bottom' } }
             }
         });
     }
@@ -1008,19 +960,13 @@ $(document).ready(function () {
             type: 'GET',
             dataType: 'json',
             success: function (respuesta) {
-                if (!respuesta.exito) {
-                    console.error('Error al cargar dashboard:', respuesta.mensaje);
-                    return;
-                }
-
+                if (!respuesta.exito) { console.error('Error dashboard:', respuesta.mensaje); return; }
                 const kpis = respuesta.datos.kpis;
                 $('#kpiTotalAlumnos').text(kpis.totalAlumnos);
                 $('#kpiTotalAulas').text(kpis.totalAulas);
                 $('#kpiVacantesDisp').text(kpis.vacantesDisp);
 
-                const generos = respuesta.datos.graficos.genero.map(function (item) {
-                    return { label: nombreGenero(item.GENERO), value: item.cantidad };
-                });
+                const generos = respuesta.datos.graficos.genero.map(item => ({ label: nombreGenero(item.GENERO), value: item.cantidad }));
                 dibujarGraficoGenero(generos.map(g => g.label), generos.map(g => g.value));
 
                 const niveles = respuesta.datos.graficos.niveles;
@@ -1030,14 +976,15 @@ $(document).ready(function () {
                     niveles.map(n => Number(n.disponibles))
                 );
             },
-            error: function (err) {
-                console.error('Error AJAX dashboard:', err);
-            }
+            error: function (err) { console.error('Error AJAX dashboard:', err); }
         });
     }
-
     cargarDashboard();
 });
+
+// =====================================================================
+// FUNCIONES GLOBALES
+// =====================================================================
 function toggleDropdown() {
     document.getElementById('dropdownMenu').classList.toggle('show');
     document.getElementById('dropdownBtn').classList.toggle('open');
@@ -1048,6 +995,7 @@ document.addEventListener('click', function(e) {
         document.getElementById('dropdownBtn')?.classList.remove('open');
     }
 });
+
 function cerrarSesion() {
     Swal.fire({
         title: '¿Cerrar sesión?',
@@ -1061,50 +1009,44 @@ function cerrarSesion() {
     }).then((result) => {
         if (result.isConfirmed) {
             fetch('php/logout.php')
-                .then(() => {
-                    window.location.replace('login.php');
-                })
-                .catch(() => {
-                    window.location.replace('login.php');
-                });
+                .then(() => window.location.replace('login.php'))
+                .catch(() => window.location.replace('login.php'));
         }
     });
 }
 
-function irA(url) {
-    window.location.replace(url);
-}
+function irA(url) { window.location.replace(url); }
 
 function irAModulo(m) {
     localStorage.setItem('moduloActivo', m);
-    window.location.replace('modulos.php'); // ← .php
+    window.location.replace('modulos.php');
 }
+
 // ── BÚSQUEDA GLOBAL ──────────────────────────────
 let searchTimer = null;
 
-const iconos  = { alumno: 'fa-user-graduate', matricula: 'fa-file-contract', pago: 'fa-money-bill-wave' };
-const labels  = { alumno: 'Alumnos',          matricula: 'Matrículas',        pago: 'Pagos' };
-const modulos = { alumno: 'estudiantes',       matricula: 'matriculas',        pago: 'pagos' };
+const iconos    = { alumno: 'fa-user-graduate', matricula: 'fa-file-contract', pago: 'fa-money-bill-wave' };
+const labels    = { alumno: 'Alumnos',          matricula: 'Matrículas',        pago: 'Pagos' };
+const modulos   = { alumno: 'estudiantes',       matricula: 'matriculas',        pago: 'pagos' };
 const grupoAKey = { alumnos: 'alumno', matriculas: 'matricula', pagos: 'pago' };
 
-// Navegación directa por nombre de módulo
 const modulosDirectos = {
-    'dashboard': 'dashboard',       'inicio': 'dashboard',
-    'estudiante': 'estudiantes',    'estudiantes': 'estudiantes',
-    'alumno': 'estudiantes',        'alumnos': 'estudiantes',
-    'curso': 'cursos',              'cursos': 'cursos',
-    'grado': 'cursos',              'grados': 'cursos',
-    'aula': 'aulas',                'aulas': 'aulas',
-    'matricula': 'matriculas',      'matriculas': 'matriculas',
-    'matrícula': 'matriculas',      'matrículas': 'matriculas',
-    'pago': 'pagos',                'pagos': 'pagos',
-    'config': 'configuracion',      'configuracion': 'configuracion',
+    'dashboard': 'dashboard',    'inicio': 'dashboard',
+    'estudiante': 'estudiantes', 'estudiantes': 'estudiantes',
+    'alumno': 'estudiantes',     'alumnos': 'estudiantes',
+    'curso': 'cursos',           'cursos': 'cursos',
+    'grado': 'cursos',           'grados': 'cursos',
+    'aula': 'aulas',             'aulas': 'aulas',
+    'matricula': 'matriculas',   'matriculas': 'matriculas',
+    'matrícula': 'matriculas',   'matrículas': 'matriculas',
+    'pago': 'pagos',             'pagos': 'pagos',
+    'config': 'configuracion',   'configuracion': 'configuracion',
     'configuración': 'configuracion',
 };
 
 const iconosModulo = {
-    'dashboard': 'fa-house',        'estudiantes': 'fa-user-graduate',
-    'cursos': 'fa-book',            'aulas': 'fa-chalkboard',
+    'dashboard': 'fa-house',      'estudiantes': 'fa-user-graduate',
+    'cursos': 'fa-book',          'aulas': 'fa-chalkboard',
     'matriculas': 'fa-file-contract', 'pagos': 'fa-money-bill-wave',
     'configuracion': 'fa-gear',
 };
@@ -1113,12 +1055,8 @@ $('#inputBusqueda').on('input', function () {
     clearTimeout(searchTimer);
     const q = $(this).val().trim();
 
-    if (q.length < 2) {
-        $('#searchResults').hide();
-        return;
-    }
+    if (q.length < 2) { $('#searchResults').hide(); return; }
 
-    // 1. Checa si es nombre de módulo → navegación directa
     const qLower = q.toLowerCase().trim();
     if (modulosDirectos[qLower]) {
         const destino = modulosDirectos[qLower];
@@ -1135,10 +1073,9 @@ $('#inputBusqueda').on('input', function () {
                 </div>
             </div>
         `).show();
-        return; // No busca en BD
+        return;
     }
 
-    // 2. Si no es módulo → busca en la BD
     searchTimer = setTimeout(function () {
         $.get('php/dashboard_busqueda.php', { opcion: 'buscar', q: q }, function (data) {
             const $res = $('#searchResults');
@@ -1167,9 +1104,7 @@ $('#inputBusqueda').on('input', function () {
                 });
             });
 
-            if (!total) {
-                $res.append('<div class="search-empty">Sin resultados para "<em>' + q + '</em>"</div>');
-            }
+            if (!total) $res.append('<div class="search-empty">Sin resultados para "<em>' + q + '</em>"</div>');
             $res.show();
 
         }, 'json').fail(function () {
@@ -1178,9 +1113,6 @@ $('#inputBusqueda').on('input', function () {
     }, 300);
 });
 
-// Cerrar resultados al hacer clic fuera
 $(document).on('click', function (e) {
-    if (!$(e.target).closest('#searchWrap').length) {
-        $('#searchResults').hide();
-    }
+    if (!$(e.target).closest('#searchWrap').length) $('#searchResults').hide();
 });
