@@ -10,7 +10,6 @@ try {
     $pdo = new PDO("mysql:host=$host;dbname=$db;charset=utf8", $user, $pass);
     $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
-    // Recibir qué acción queremos hacer (1: Crear, 2: Editar, 3: Eliminar, 4: Listar, 5: Cargar selects)
     $opcion = $_POST['opcion'] ?? '';
 
     switch ($opcion) {
@@ -56,7 +55,7 @@ try {
             echo json_encode(["exito" => true, "mensaje" => "Pago eliminado correctamente."]);
             break;
 
-        case '4': // LISTAR PAGOS (con JOIN para mostrar nombre del alumno)
+        case '4': // LISTAR PAGOS
             $sql  = "SELECT 
                         p.ID_PAGO,
                         p.ID_MATRICULA,
@@ -80,14 +79,13 @@ try {
             break;
 
         case '5': // CARGAR MATRÍCULAS PARA EL SELECT DEL MODAL
-            // Mostramos: "Nombre Alumno - Curso (Año)" para identificar fácilmente
             $sql = "SELECT 
                         m.ID_MATRICULA,
-                        CONCAT(a.NOMBRES, ' ', a.APELLIDOS, ' - ', c.NOMBRE_CURSO, ' (', m.ANIO_ESCOLAR, ')') AS DESCRIPCION
+                        CONCAT(a.NOMBRES, ' ', a.APELLIDOS, ' - ', c.NOMBRE_CURSO) AS DESCRIPCION
                     FROM MATRICULA m
                     INNER JOIN ALUMNO a ON m.ID_ALUMNO = a.ID_ALUMNO
                     INNER JOIN CURSO  c ON m.ID_CURSO  = c.ID_CURSO
-                    WHERE m.ESTADO = 'Activo'
+                    WHERE m.ESTADO IN ('Activo', 'Pendiente')
                     ORDER BY a.NOMBRES";
             $stmt = $pdo->prepare($sql);
             $stmt->execute();

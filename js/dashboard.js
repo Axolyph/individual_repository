@@ -1,17 +1,16 @@
 
 /* ========================================================================
-   SISTEMA DE MATRICULA - ARCHIVO CONSOLIDADO DE JAVASCRIPT
-   ======================================================================== 
-   Contiene toda la lógica de los módulos:
-   - Navegación entre módulos
-   - Estudiantes
-   - Cursos
-   - Aulas
-   - Matrículas
-   - Pagos
-   - Configuración
+    SISTEMA DE MATRICULA - ARCHIVO CONSOLIDADO DE JAVASCRIPT
+    ======================================================================== 
+    Contiene toda la lógica de los módulos:
+    - Navegación entre módulos
+    - Estudiantes
+    - Cursos
+    - Aulas
+    - Matrículas
+    - Pagos
+    - Configuración
    ======================================================================== */
-
 // =====================================================================
 // MÓDULO DE NAVEGACIÓN - CAMBIO ENTRE SECCIONES
 // =====================================================================
@@ -58,13 +57,13 @@ $(document).ready(function() {
     const paginaActual = window.location.pathname.split('/').pop().toLowerCase();
     let moduloGuardado = localStorage.getItem('moduloActivo') || 'estudiantes';
 
-    if (paginaActual === 'dashboard.html') {
+    if (paginaActual === 'dashboard.php') {
         moduloGuardado = 'dashboard';
-    } else if (paginaActual === 'modulos.html' && moduloGuardado === 'dashboard') {
+    } else if (paginaActual === 'modulos.php' && moduloGuardado === 'dashboard') {
         moduloGuardado = 'estudiantes';
     }
 
-    if (paginaActual !== 'modulos.html' || moduloGuardado !== 'estudiantes') {
+    if (paginaActual !== 'modulos.php' || moduloGuardado !== 'estudiantes') {
         cambiarModulo(moduloGuardado);
     }
     
@@ -495,13 +494,17 @@ $(document).ready(function () {
             dataType: "json",
             data: { opcion: 5 },
             success: function (data) {
-                $('#id_alumno').find('option:not(:first)').remove();
-                $('#id_curso').find('option:not(:first)').remove();
+                let selectAlumno = $('#modalMatricula #id_alumno');
+                let selectCurso  = $('#modalMatricula #id_curso');
+
+                selectAlumno.find('option:not(:first)').remove();
+                selectCurso.find('option:not(:first)').remove();
+
                 $.each(data.alumnos, function (i, alumno) {
-                    $('#id_alumno').append(`<option value="${alumno.ID_ALUMNO}">${alumno.NOMBRE_COMPLETO}</option>`);
+                    selectAlumno.append(`<option value="${alumno.ID_ALUMNO}">${alumno.NOMBRE_COMPLETO}</option>`);
                 });
                 $.each(data.cursos, function (i, curso) {
-                    $('#id_curso').append(`<option value="${curso.ID_CURSO}">${curso.NOMBRE_CURSO} (${curso.NIVEL} ${curso.GRADO})</option>`);
+                    selectCurso.append(`<option value="${curso.ID_CURSO}">${curso.NOMBRE_CURSO} (${curso.NIVEL} - Grado ${curso.GRADO})</option>`);
                 });
             }
         });
@@ -590,7 +593,7 @@ $(document).ready(function () {
 
         cargarSelects();
         setTimeout(function () {
-            $('#id_matricula').val(idMatricula);
+            $('#hidden_id_matricula').val(idMatricula);
             $('#opcion').val('2');
             $('#modalTituloMatricula').text('Editar Matrícula');
             $('#id_alumno').val(idAlumno);
@@ -622,7 +625,7 @@ $(document).ready(function () {
                     else if (m.ESTADO === 'Pendiente') badgeClass = 'status-process';
 
                     let fila = `
-                    <tr data-id="${m.ID_MATRICULA}" data-id-alumno="${m.ID_ALUMNO}" data-id-curso="${m.ID_CURSO}" data-fecha="${m.FECHA_MATRICULA}" data-fecha="${m.FECHA_ESCOLAR}" data-turno="${m.TURNO}" data-estado="${m.ESTADO}" data-observaciones="${m.OBSERVACIONES ?? ''}">
+                    <tr data-id="${m.ID_MATRICULA}" data-id-alumno="${m.ID_ALUMNO}" data-id-curso="${m.ID_CURSO}" data-fecha="${m.FECHA_MATRICULA}" data-fecha_escolar="${m.FECHA_ESCOLAR}" data-turno="${m.TURNO}" data-estado="${m.ESTADO}" data-observaciones="${m.OBSERVACIONES ?? ''}">
                         <td>${m.ID_MATRICULA}</td>
                         <td>${m.NOMBRE_ALUMNO}</td>
                         <td>${m.NOMBRE_CURSO}</td>
@@ -648,18 +651,19 @@ $(document).ready(function () {
     // CARGAR SELECTS
     function cargarSelects() {
         $.ajax({
-            url: "php/crud_pagos.php",
-            type: "POST",
-            dataType: "json",
-            data: { opcion: 5 },
-            success: function (data) {
-                $('#id_matricula').find('option:not(:first)').remove();
-                $.each(data.matriculas, function (i, m) {
-                    $('#id_matricula').append(`<option value="${m.ID_MATRICULA}">${m.DESCRIPCION}</option>`);
-                });
-            }
-        });
-    }
+        url: "php/crud_pagos.php",
+        type: "POST",
+        dataType: "json",
+        data: { opcion: 5 },
+        success: function (data) {
+            let selectMatricula = $('#modalPago #id_matricula');  // ← selector específico
+            selectMatricula.find('option:not(:first)').remove();
+            $.each(data.matriculas, function (i, m) {
+                selectMatricula.append(`<option value="${m.ID_MATRICULA}">${m.DESCRIPCION}</option>`);
+            });
+        }
+    });
+}
 
     // 1. ABRIR MODAL
     $(document).on('click', '#modulo-pagos .btn-nuevo-pago', function () {
@@ -672,19 +676,17 @@ $(document).ready(function () {
     });
 
     // MOSTRAR INFO DE MATRÍCULA
-    $(document).on('change', '#id_matricula', function () {
-        let selectedText = $(this).find('option:selected').text();
-        if ($(this).val() !== '') {
-            let partes = selectedText.split(' - ');
-            let nombreAlumno = partes[0];
-            let nombreCurso = partes[1];
-            $('#nombreAlumno').text(nombreAlumno);
-            $('#nombreCurso').text(nombreCurso);
-            $('#resumenMatricula').slideDown(300);
-        } else {
-            $('#resumenMatricula').slideUp(300);
-        }
-    });
+    $(document).on('change', '#modalPago #id_matricula', function () {  // ← agregar #modalPago
+    let selectedText = $(this).find('option:selected').text();
+    if ($(this).val() !== '') {
+        let partes = selectedText.split(' - ');
+        $('#nombreAlumno').text(partes[0]);
+        $('#nombreCurso').text(partes[1]);
+        $('#resumenMatricula').slideDown(300);
+    } else {
+        $('#resumenMatricula').slideUp(300);
+    }
+});
 
     // 2. CERRAR MODAL
     $(document).on('click', '#modalPago .btn-cerrar-modal', function () {
@@ -1035,4 +1037,150 @@ $(document).ready(function () {
     }
 
     cargarDashboard();
+});
+function toggleDropdown() {
+    document.getElementById('dropdownMenu').classList.toggle('show');
+    document.getElementById('dropdownBtn').classList.toggle('open');
+}
+document.addEventListener('click', function(e) {
+    if (!e.target.closest('.user-dropdown-wrap')) {
+        document.getElementById('dropdownMenu')?.classList.remove('show');
+        document.getElementById('dropdownBtn')?.classList.remove('open');
+    }
+});
+function cerrarSesion() {
+    Swal.fire({
+        title: '¿Cerrar sesión?',
+        text: 'Se cerrará tu sesión actual.',
+        icon: 'question',
+        showCancelButton: true,
+        confirmButtonColor: '#d33',
+        cancelButtonColor: '#3085d6',
+        confirmButtonText: 'Sí, salir',
+        cancelButtonText: 'Cancelar'
+    }).then((result) => {
+        if (result.isConfirmed) {
+            fetch('php/logout.php')
+                .then(() => {
+                    window.location.replace('login.php');
+                })
+                .catch(() => {
+                    window.location.replace('login.php');
+                });
+        }
+    });
+}
+
+function irA(url) {
+    window.location.replace(url);
+}
+
+function irAModulo(m) {
+    localStorage.setItem('moduloActivo', m);
+    window.location.replace('modulos.php'); // ← .php
+}
+// ── BÚSQUEDA GLOBAL ──────────────────────────────
+let searchTimer = null;
+
+const iconos  = { alumno: 'fa-user-graduate', matricula: 'fa-file-contract', pago: 'fa-money-bill-wave' };
+const labels  = { alumno: 'Alumnos',          matricula: 'Matrículas',        pago: 'Pagos' };
+const modulos = { alumno: 'estudiantes',       matricula: 'matriculas',        pago: 'pagos' };
+const grupoAKey = { alumnos: 'alumno', matriculas: 'matricula', pagos: 'pago' };
+
+// Navegación directa por nombre de módulo
+const modulosDirectos = {
+    'dashboard': 'dashboard',       'inicio': 'dashboard',
+    'estudiante': 'estudiantes',    'estudiantes': 'estudiantes',
+    'alumno': 'estudiantes',        'alumnos': 'estudiantes',
+    'curso': 'cursos',              'cursos': 'cursos',
+    'grado': 'cursos',              'grados': 'cursos',
+    'aula': 'aulas',                'aulas': 'aulas',
+    'matricula': 'matriculas',      'matriculas': 'matriculas',
+    'matrícula': 'matriculas',      'matrículas': 'matriculas',
+    'pago': 'pagos',                'pagos': 'pagos',
+    'config': 'configuracion',      'configuracion': 'configuracion',
+    'configuración': 'configuracion',
+};
+
+const iconosModulo = {
+    'dashboard': 'fa-house',        'estudiantes': 'fa-user-graduate',
+    'cursos': 'fa-book',            'aulas': 'fa-chalkboard',
+    'matriculas': 'fa-file-contract', 'pagos': 'fa-money-bill-wave',
+    'configuracion': 'fa-gear',
+};
+
+$('#inputBusqueda').on('input', function () {
+    clearTimeout(searchTimer);
+    const q = $(this).val().trim();
+
+    if (q.length < 2) {
+        $('#searchResults').hide();
+        return;
+    }
+
+    // 1. Checa si es nombre de módulo → navegación directa
+    const qLower = q.toLowerCase().trim();
+    if (modulosDirectos[qLower]) {
+        const destino = modulosDirectos[qLower];
+        const icono   = iconosModulo[destino] || 'fa-arrow-right';
+        $('#searchResults').empty().append(`
+            <div class="search-group-title">Módulos</div>
+            <div class="search-item" onclick="irAModulo('${destino}'); $('#searchResults').hide();">
+                <div class="search-item-icon alumno">
+                    <i class="fa-solid ${icono}"></i>
+                </div>
+                <div class="search-item-text">
+                    <strong>Ir a ${destino.charAt(0).toUpperCase() + destino.slice(1)}</strong>
+                    <span>Navegar al módulo</span>
+                </div>
+            </div>
+        `).show();
+        return; // No busca en BD
+    }
+
+    // 2. Si no es módulo → busca en la BD
+    searchTimer = setTimeout(function () {
+        $.get('php/dashboard_busqueda.php', { opcion: 'buscar', q: q }, function (data) {
+            const $res = $('#searchResults');
+            $res.empty();
+            let total = 0;
+
+            ['alumnos', 'matriculas', 'pagos'].forEach(function (grupo) {
+                const key   = grupoAKey[grupo];
+                const items = data[grupo] || [];
+                if (!items.length) return;
+                total += items.length;
+
+                $res.append(`<div class="search-group-title">${labels[key]}</div>`);
+                items.forEach(function (item) {
+                    $res.append(`
+                        <div class="search-item" onclick="irAModulo('${modulos[key]}')">
+                            <div class="search-item-icon ${key}">
+                                <i class="fa-solid ${iconos[key]}"></i>
+                            </div>
+                            <div class="search-item-text">
+                                <strong>${item.texto}</strong>
+                                <span>${item.detalle}</span>
+                            </div>
+                        </div>
+                    `);
+                });
+            });
+
+            if (!total) {
+                $res.append('<div class="search-empty">Sin resultados para "<em>' + q + '</em>"</div>');
+            }
+            $res.show();
+
+        }, 'json').fail(function () {
+            $('#searchResults').html('<div class="search-empty">Error al conectar con el servidor.</div>').show();
+        });
+    }, 300);
+});
+
+// Cerrar resultados al hacer clic fuera
+$(document).on('click', function (e) {
+    if (!$(e.target).closest('#searchWrap').length) {
+        $('#searchResults').hide();
+    }
 });
