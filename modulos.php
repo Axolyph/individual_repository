@@ -1,3 +1,16 @@
+<?php
+session_start();
+if (!isset($_SESSION['rol']) || $_SESSION['rol'] !== 'admin') {
+    header('Location: login.php');
+    exit;
+}
+
+// Evita que el navegador cachee la página
+header('Cache-Control: no-store, no-cache, must-revalidate, max-age=0');
+header('Cache-Control: post-check=0, pre-check=0', false);
+header('Pragma: no-cache');
+header('Expires: Sat, 01 Jan 2000 00:00:00 GMT');
+?>
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -36,7 +49,7 @@
             </div>
             <nav class="sidebar-nav">
                 <ul>
-                    <li><a href="dashboard.html"><i class="fa-solid fa-house"></i>Dashboard</a></li>
+                    <li><a href="dashboard.php"><i class="fa-solid fa-house"></i>Dashboard</a></li>
                     <li class="active"><a href="#" data-module="estudiantes"><i class="fa-solid fa-user-graduate"></i>Estudiantes</a></li>
                     <li><a href="#" data-module="cursos"><i class="fa-solid fa-book"></i>Cursos/Grados</a></li>
                     <li><a href="#" data-module="aulas"><i class="fa-solid fa-chalkboard"></i>Aulas</a></li>
@@ -47,12 +60,12 @@
             </nav>
             <div class="sidebar-footer">
                 <div class="user-profile">
-                    <img src="img/user.png" alt="Avatar">
-                    <div class="user-info">
-                        <h3>Administrador</h3>
-                        <a href="#">Ver perfil</a>
-                    </div>
-                </div>
+    <div class="avatar-circle">AD</div>
+    <div class="user-info">
+        <h3>Administrador</h3>
+        <a href="#">Ver perfil</a>
+    </div>
+</div>
             </div>
         </aside>
 
@@ -62,15 +75,66 @@
                     <h2>Panel de Administración</h2>
                 </div>
                 <div class="header-right">
-                    <i class="fa-solid fa-bell"></i>
-                    <div class="search-bar">
-                        <input type="text" placeholder="Buscar...">
-                        <i class="fa-solid fa-magnifying-glass"></i>
-                    </div>
-                    <div class="user-dropdown">
-                        <img src="img/user.png" alt="Fabian Andre">
-                        <h3>Fabian Andre <i class="fa-solid fa-chevron-down"></i></h3>
-                    </div>
+                    <!-- CAMPANA -->
+        <div class="notif-wrap" id="notifWrap">
+            <div class="notif-btn" onclick="toggleNotif()">
+                <i class="fa-solid fa-bell"></i>
+                <span class="notif-badge" id="notifBadge" style="display:none">0</span>
+            </div>
+            <div class="notif-panel" id="notifPanel">
+                <div class="notif-header">
+                    <strong>Notificaciones</strong>
+                </div>
+                <div id="notifContenido">
+                    <p style="padding:12px;color:#888;font-size:0.82rem;">Cargando...</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- BÚSQUEDA GLOBAL -->
+        <div class="search-wrap" id="searchWrap">
+            <div class="search-bar">
+                <input type="text" id="inputBusqueda" placeholder="Buscar..." autocomplete="off">
+                <i class="fa-solid fa-magnifying-glass"></i>
+            </div>
+            <div class="search-results" id="searchResults" style="display:none"></div>
+        </div>
+
+        <!-- DROPDOWN USUARIO -->
+                    <div class="user-dropdown-wrap">
+    <div class="user-dropdown-btn" id="dropdownBtn" onclick="toggleDropdown()">
+        <div class="avatar-hdr">AD</div>
+        <h3>Admin <i class="fa-solid fa-chevron-down"></i></h3>
+    </div>
+    <div class="dropdown-menu-custom" id="dropdownMenu">
+        <div class="dropdown-header-info">
+            <p>Sesión activa como</p>
+            <strong>Administrador</strong>
+        </div>
+        <a class="dropdown-item-custom" onclick="irA('dashboard.php')">
+            <i class="fa-solid fa-house"></i> Dashboard
+        </a>
+        <a class="dropdown-item-custom" onclick="irA('modulos.php')">
+            <i class="fa-solid fa-user-graduate"></i> Estudiantes
+        </a>
+        <a class="dropdown-item-custom" onclick="irAModulo('cursos')">
+            <i class="fa-solid fa-book"></i> Cursos/Grados
+        </a>
+        <a class="dropdown-item-custom" onclick="irAModulo('matriculas')">
+            <i class="fa-solid fa-file-contract"></i> Matrículas
+        </a>
+        <a class="dropdown-item-custom" onclick="irAModulo('pagos')">
+            <i class="fa-solid fa-money-bill-wave"></i> Pagos
+        </a>
+        <a class="dropdown-item-custom" onclick="irAModulo('configuracion')">
+            <i class="fa-solid fa-gear"></i> Configuración
+        </a>
+        <div class="dropdown-divider"></div>
+        <a class="dropdown-item-custom danger" onclick="cerrarSesion()">
+            <i class="fa-solid fa-right-from-bracket"></i> Cerrar sesión
+        </a>
+    </div>
+</div>
                 </div>
             </header>
 
@@ -419,7 +483,8 @@
                 <i class="fa-solid fa-xmark btn-cerrar-modal"></i>
             </div>
             <form id="formAlumno">
-                <input type="hidden" id="id_alumno" name="id_alumno">
+                <input type="hidden" id="hidden_id_matricula" name="id_matricula">
+
                 <input type="hidden" id="opcion" name="opcion" value="1">
                 <div class="form-grid">
                     <input type="text" id="dni" name="dni" placeholder="DNI (8 dígitos)" maxlength="8" required>
