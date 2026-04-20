@@ -50,7 +50,7 @@ $(document).ready(function() {
         success: function(r) {
             if (!r.exito) {
                 Swal.fire({ icon:'warning', title:'Sesión expirada', text:'Por favor inicia sesión nuevamente.', confirmButtonColor:'#119a67' })
-                    .then(() => window.location.replace('login.php'));
+                    .then(() => window.location.replace('index.php'));
                 return;
             }
 
@@ -160,10 +160,10 @@ function cerrarSesion() {
         if (result.isConfirmed) {
             fetch('php/logout.php')
                 .then(() => {
-                    window.location.replace('login.php');
+                    window.location.replace('index.php');
                 })
                 .catch(() => {
-                    window.location.replace('login.php');
+                    window.location.replace('index.php');
                 });
         }
     });
