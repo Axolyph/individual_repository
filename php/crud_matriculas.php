@@ -1,10 +1,10 @@
 <?php
 header('Content-Type: application/json');
  
-$host = 'localhost';
-$db   = 'MATRICULA';
-$user = 'root';
-$pass = '';
+$host = 'sql100.infinityfree.com';
+$db   = 'if0_41711637_xyz';
+$user = 'if0_41711637';
+$pass = 'xOAWNxbCu1';
  
 try {
     $pdo = new PDO("mysql:host=$host;dbname=$db;charset=utf8", $user, $pass);

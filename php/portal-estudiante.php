@@ -10,10 +10,10 @@ if (!isset($_SESSION['id']) || ($_SESSION['rol'] ?? '') !== 'usuario') {
     exit;
 }
 
-$host = 'localhost';
-$db   = 'MATRICULA';
-$user = 'root';
-$pass = '';
+$host = 'sql100.infinityfree.com';
+$db   = 'if0_41711637_xyz';
+$user = 'if0_41711637';
+$pass = 'xOAWNxbCu1';
 
 $opcion = intval($_POST['opcion'] ?? 1);
 $idAlumno = intval($_SESSION['id']);

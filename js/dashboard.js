@@ -1009,8 +1009,8 @@ function cerrarSesion() {
     }).then((result) => {
         if (result.isConfirmed) {
             fetch('php/logout.php')
-                .then(() => window.location.replace('login.php'))
-                .catch(() => window.location.replace('login.php'));
+                .then(() => window.location.replace('index.php'))
+                .catch(() => window.location.replace('index.php'));
         }
     });
 }
